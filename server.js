@@ -8,6 +8,9 @@ const { notes }  = require('./data/notes.json')
 //SERVER declaration
 const app = express();
 
+// environment variable, use heroku port or another port
+const PORT = process.env.PORT || 3001
+
 
 function filterByQuery(query, notesArray) {
   let soughtNote = notesArray;
@@ -35,6 +38,6 @@ app.get('/api/notes', (req, res) =>{
 
 
 //chain the server to the LISTEN() method and listen for requests
-app.listen(3001, () => {
+app.listen(PORT, () => {
   console.log(`Server is listening for NOTES`)
 });

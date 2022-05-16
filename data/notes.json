@@ -4,17 +4,6 @@
             "id": "0",
             "title":"Test Title One",
             "text":"Test text for note one"
-        },
-        {
-            "id": "1",
-            "title":"Test Title Two",
-            "text":"Test text for note two"
-        },
-        {
-            "id": "2",
-            "title":"Test  Title Three",
-            "text":"Test text for note Three"
         }
-
     ]
 }

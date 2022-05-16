@@ -25,11 +25,12 @@ function findById(id, notesArray) {
   return thisNote;
 }
 
-// declare function to create a new note
+// declare function to create a new note and add it to json file
 function createNote(body, notesArray){
-  //create aunique id for every note
-  req.body.id = notes.length.toString();
-  res.json(req.body)
+  const newNote = body;
+  notesArray.push(newNote);
+ 
+  return newNote;
 }
 
 // declare route to request the all notes data
@@ -50,7 +51,16 @@ app.get('/api/notes/:id', (req, res) =>{
 
 //route to POST/CREATE a new note
 app.post('/api/notes', (req, res) => {
-  console.log(req.body);
+  //create aunique id for every note, and error prevention if there are no  notes
+  let newId = 1 + parseInt(notes[notes.length - 1].id);
+  if(!notes.length){
+    newId = 0
+  }
+  req.body.id = newId.toString()
+
+  //add the note to json file and notesArray
+  const newNote = createNote(req.body, notes);
+
   res.json(req.body);
 });
 

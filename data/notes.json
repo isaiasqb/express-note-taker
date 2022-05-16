@@ -2,18 +2,18 @@
     "notes": [
         {
             "id": "0",
-            "title":"Test Title",
-            "text":"Test text"
+            "title":"Test Title One",
+            "text":"Test text for note one"
         },
         {
             "id": "1",
-            "title":"Test2",
-            "text":"Test text 2"
+            "title":"Test Title Two",
+            "text":"Test text for note two"
         },
         {
             "id": "2",
-            "title":"Test3",
-            "text":"Test text 3"
+            "title":"Test  Title Three",
+            "text":"Test text for note Three"
         }
 
     ]

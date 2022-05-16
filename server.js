@@ -8,17 +8,16 @@ const { notes }  = require('./data/notes.json')
 //SERVER declaration
 const app = express();
 
+
+//MIDDLEWARE FUNCTIONS
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // environment variable, use heroku port or another port
 const PORT = process.env.PORT || 3001
 
 
-function filterByQuery(query, notesArray) {
-  let soughtNote = notesArray;
-  if (query.title) {
-    soughtNote = soughtNote.filter(notes => notes.title === query.title);
-  }
-  return filteredResults;
-}
+
 
 // declare the functiion being used in the GET route by id
 function findById(id, notesArray) {
@@ -26,6 +25,12 @@ function findById(id, notesArray) {
   return thisNote;
 }
 
+// declare function to create a new note
+function createNote(body, notesArray){
+  //create aunique id for every note
+  req.body.id = notes.length.toString();
+  res.json(req.body)
+}
 
 // declare route to request the all notes data
 app.get('/api/notes', (req, res) =>{
@@ -35,10 +40,19 @@ app.get('/api/notes', (req, res) =>{
 // declare route to request a single note by param
 app.get('/api/notes/:id', (req, res) =>{
   const singleNote = findById(req.params.id, notes);
-  res.json(singleNote);
+  if(singleNote){
+    res.json(singleNote)
+  } else {
+    res.send(404);
+  };
 })
 
 
+//route to POST/CREATE a new note
+app.post('/api/notes', (req, res) => {
+  console.log(req.body);
+  res.json(req.body);
+});
 
 //chain the server to the LISTEN() method and listen for requests
 app.listen(PORT, () => {

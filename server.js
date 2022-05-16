@@ -20,24 +20,27 @@ function filterByQuery(query, notesArray) {
   return filteredResults;
 }
 
+// declare the functiion being used in the GET route by id
+function findById(id, notesArray) {
+  const thisNote = notesArray.filter(note => note.id === id)[0];
+  return thisNote;
+}
+
 
 // declare route to request the all notes data
 app.get('/api/notes', (req, res) =>{
   res.send(notes);
 })
 
-// declare route to request a particular notes
-app.get('/api/notes', (req, res) =>{
-  let thisNote = notes;
-  if(req.query) {
-    thisNote = filterByQuery(req.query, thisNote);
-  }
-  res.json(thisNote);
+// declare route to request a single note by param
+app.get('/api/notes/:id', (req, res) =>{
+  const singleNote = findById(req.params.id, notes);
+  res.json(singleNote);
 })
 
 
 
 //chain the server to the LISTEN() method and listen for requests
 app.listen(PORT, () => {
-  console.log(`Server is listening for NOTES`)
+  console.log(`Server is listening for NOTES on ${PORT}`)
 });

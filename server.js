@@ -15,6 +15,8 @@ const app = express();
 //MIDDLEWARE FUNCTIONS
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+//make files forn the fornt  end  available
+app.use(express.static('public'));
 
 // environment variable, use heroku port or another port
 const PORT = process.env.PORT || 3001
@@ -28,7 +30,7 @@ function findById(id, notesArray) {
   return thisNote;
 }
 
-// FUNCTION to create a new note and add it to json file
+// FUNCTION to CREATING a new note and add it to json file
 function createNote(body, notesArray){
   const newNote = body;
   notesArray.push(newNote);
@@ -39,6 +41,12 @@ function createNote(body, notesArray){
   );
 
   return newNote;
+}
+
+//FUNCTION for DELETING a note
+// FUNCTION to create a new note and add it to json file
+function deleteNote(body, notesArray){
+
 }
 
 
@@ -67,11 +75,11 @@ app.post('/api/notes', (req, res) => {
     newId = 0
   }
   req.body.id = newId.toString()
-
+  
+  // prevent empty string to be submitted as null
   if(!req.body.title){
     req.body.title = "New Note"
   }
-
   if(!req.body.text){
     req.body.text = ""
   }
@@ -80,6 +88,24 @@ app.post('/api/notes', (req, res) => {
   const newNote = createNote(req.body, notes);
   res.json(newNote);
 });
+
+// DELETE a note - Route
+app.delete('/api/notes/:id', (req, res) => {
+  const unwantedNote = findById(req.params.id, notes);
+  if(unwantedNote){
+    res.json(unwantedNote)
+  } else {
+    res.send(404);
+  };
+});
+
+
+// Route for index.html to be served from our Express.js
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+
 
 //chain the server to the LISTEN() method and listen for requests
 app.listen(PORT, () => {

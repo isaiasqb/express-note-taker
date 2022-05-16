@@ -1,9 +1,39 @@
 {
-    "notes": [
-        {
-            "id": "0",
-            "title":"Test Title One",
-            "text":"Test text for note one"
-        }
-    ]
+  "notes": [
+    {
+      "id": "0",
+      "title": "Test Title One",
+      "text": "Test text for note one"
+    },
+    {
+      "title": "Test Posted",
+      "text": "Test text for note using POST",
+      "id": "1"
+    },
+    {
+      "title": "Test Posted Again",
+      "text": "Test text for note using POST once again",
+      "id": "2"
+    },
+    {
+      "title": "Groceries",
+      "text": "A pound of meat",
+      "id": "3"
+    },
+    {
+      "title": "Work",
+      "text": "Meeting at 5",
+      "id": "4"
+    },
+    {
+      "title": "...write something",
+      "text": "",
+      "id": "5"
+    },
+    {
+      "title": "New Note",
+      "text": "",
+      "id": "6"
+    }
+  ]
 }

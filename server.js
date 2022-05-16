@@ -4,6 +4,9 @@
 const express = require('express');
 //import the data from the notes.json file
 const { notes }  = require('./data/notes.json')
+//import the file system functionality
+const fs = require('fs');
+const path = require('path');
 
 //SERVER declaration
 const app = express();
@@ -19,26 +22,33 @@ const PORT = process.env.PORT || 3001
 
 
 
-// declare the functiion being used in the GET route by id
+// FUNCTION being used in the GET route by id
 function findById(id, notesArray) {
   const thisNote = notesArray.filter(note => note.id === id)[0];
   return thisNote;
 }
 
-// declare function to create a new note and add it to json file
+// FUNCTION to create a new note and add it to json file
 function createNote(body, notesArray){
   const newNote = body;
   notesArray.push(newNote);
- 
+  // use fs to rewite the json file for notes
+  fs.writeFileSync(
+    path.join(__dirname, './data/notes.json'),
+    JSON.stringify({notes: notesArray}, null, 2)
+  );
+
   return newNote;
 }
 
-// declare route to request the all notes data
+
+
+// GET all notes data - Route
 app.get('/api/notes', (req, res) =>{
   res.send(notes);
 })
 
-// declare route to request a single note by param
+// GET a single note by param - Route
 app.get('/api/notes/:id', (req, res) =>{
   const singleNote = findById(req.params.id, notes);
   if(singleNote){
@@ -49,7 +59,7 @@ app.get('/api/notes/:id', (req, res) =>{
 })
 
 
-//route to POST/CREATE a new note
+// POST/CREATE a new note - Route
 app.post('/api/notes', (req, res) => {
   //create aunique id for every note, and error prevention if there are no  notes
   let newId = 1 + parseInt(notes[notes.length - 1].id);
@@ -58,10 +68,17 @@ app.post('/api/notes', (req, res) => {
   }
   req.body.id = newId.toString()
 
+  if(!req.body.title){
+    req.body.title = "New Note"
+  }
+
+  if(!req.body.text){
+    req.body.text = ""
+  }
+
   //add the note to json file and notesArray
   const newNote = createNote(req.body, notes);
-
-  res.json(req.body);
+  res.json(newNote);
 });
 
 //chain the server to the LISTEN() method and listen for requests

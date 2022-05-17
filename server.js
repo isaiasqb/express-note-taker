@@ -44,12 +44,10 @@ function createNote(body, notesArray){
 }
 
 //FUNCTION for DELETING a note
-// FUNCTION to create a new note and add it to json file
-function deleteNote(body, notesArray){
-
-}
-
-
+function deleteNote(id, notesArray){
+  let remainingNotes = notes.splice(id, 1)
+  return remainingNotes
+  }
 
 // GET all notes data - Route
 app.get('/api/notes', (req, res) =>{
@@ -89,20 +87,31 @@ app.post('/api/notes', (req, res) => {
   res.json(newNote);
 });
 
-// DELETE a note - Route
+//DELETE a note - Route in  construction...
 app.delete('/api/notes/:id', (req, res) => {
-  const unwantedNote = findById(req.params.id, notes);
-  if(unwantedNote){
-    res.json(unwantedNote)
-  } else {
-    res.send(404);
-  };
+  let noteId = req.params.id
+  let remainingNotes = {};
+  notes.map(note => {
+    console.log(notes.find( ({id}) => id === noteId))
+    // if(note.id !== noteId){
+    //   remainingNotes.push(note)
+    // }
+    // fs.writeFileSync(
+    //   path.join(__dirname, './data/notes.json'),
+    //   JSON.stringify({ notes: remainingNotes }, null, 2)
+    // );
+  })
 });
 
 
 // Route for index.html to be served from our Express.js
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// Route for notes.html to be served from our Express.js
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
 
